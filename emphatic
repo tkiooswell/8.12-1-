@@ -1,0 +1,75 @@
+#pragma once
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+class Fraction
+{
+	int numerator;
+	int denominator;
+public:
+	Fraction(int n, int d) : numerator{ n }, denominator(d) {};
+	Fraction() : Fraction(1, 1) {};
+	int NOD(int a, int b){
+		a = abs(a);
+		b = abs(b);
+		while (a != b)
+		{
+			if (a > b)
+				a -= b;
+			else
+				b -= a;
+		}
+		return a;
+	} 
+
+	Fraction operator+(Fraction& d) {
+		if (denominator == d.denominator) 
+			return Fraction(numerator + d.numerator, denominator);
+		int tempN = numerator * d.denominator + d.numerator*denominator;
+		int tempD = denominator * d.denominator;
+		int NOD = NOD(tempN, tempD);
+		if (NOD)
+			return Fraction(tempN / NOD, tempD / NOD);
+		return Fraction(tempN, tempD);
+	}
+	Fraction operator-(Fraction& d) {
+		if (denominator == d.denominator)
+			return Fraction(numerator - d.numerator, denominator);
+		int tempN = numerator * d.denominator - d.numerator * denominator;
+		int tempD = denominator * d.denominator;
+		int NOD = NOD(tempN, tempD);
+		if (NOD)
+			return Fraction(tempN / NOD, tempD / NOD);
+		return Fraction(tempN, tempD);
+	}
+	Fraction operator*(Fraction& d) {
+		int tempN = numerator * d.numerator;
+		int tempD = denominator * d.denominator;
+		int NOD = NOD(tempN, tempD);
+		if (NOD)
+			return Fraction(tempN / NOD, tempD / NOD);
+		return Fraction(tempN, tempD);
+	}
+	Fraction operator/(Fraction& d) {
+		int tempN = numerator * d.denominator;
+		int tempD = denominator * d.numerator;
+		int NOD = NOD(tempN, tempD);
+		if (NOD)
+			return Fraction(tempN / NOD, tempD / NOD);
+		return Fraction(tempN, tempD);
+	}
+
+
+	int getNumerator() {
+		return numerator;
+	}
+	int getDenominator() {
+		return denominator;
+	}
+	void setNumerator(int n) {
+		numerator = n;
+	}
+	void setDenominator(int d) {
+		denominator = d;
+	}
+};
